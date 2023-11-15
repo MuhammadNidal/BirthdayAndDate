@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age and Date Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color:#009B77;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color:yellow;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 20px;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            font-size: 16px;
+        }
+
+        input[type="date"] {
+            padding: 6px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #calculate {
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #calculate:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Age and Date Calculator</h1>
+        <label for="birthdate">Enter your birthdate:</label>
+        <input type="date" id="birthdate">
+        <br>
+        <button id="calculate">Calculate Age and Date</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        document.getElementById('calculate').addEventListener('click', calculateAgeAndDate);
+
+        function calculateAgeAndDate() {
+            const birthdateInput = document.getElementById('birthdate');
+            const resultElement = document.getElementById('result');
+
+            const birthdate = new Date(birthdateInput.value);
+            const today = new Date();
+
+            if (isNaN(birthdate)) {
+                resultElement.innerText = 'Please enter a valid birthdate.';
+                return;
+            }
+
+            const ageInMilliseconds = today - birthdate;
+            const ageInYears = ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+            const age = Math.floor(ageInYears);
+
+            const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][birthdate.getDay()];
+            const year = birthdate.getFullYear();
+
+            // Add a personalized message based on the birthdate
+            let message = `Your age is approximately ${age} years.<br>`;
+            message += `You were born on a ${dayOfWeek}.<br>`;
+            message += `The birth year is ${year}.<br>`;
+            
+            if (birthdate.getMonth() === today.getMonth() && birthdate.getDate() === today.getDate()) {
+                message += `Happy birthday! 🎉`;
+            }
+
+            resultElement.innerHTML = message;
+        }
+    </script>
+</body>
+</html>
